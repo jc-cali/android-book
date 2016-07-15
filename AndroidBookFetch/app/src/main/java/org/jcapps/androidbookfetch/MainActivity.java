@@ -1,5 +1,6 @@
 package org.jcapps.androidbookfetch;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -9,12 +10,32 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.io.IOException;
+
 public class MainActivity extends AppCompatActivity {
+
+    private class HttpFetch extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            Book myBook = new Book("", "", 0, "");
+            // return our data
+            return null;
+        }
+
+        protected void onPostExecute(String result) {
+            // call a method to call a TextView
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // start our poem fetch
+        new HttpFetch().execute();
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
