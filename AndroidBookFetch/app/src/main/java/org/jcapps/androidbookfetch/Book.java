@@ -32,15 +32,17 @@ public class Book {
         try {
             req = new Request.Builder().url(BOOK_URL).build();
             res = http.newCall(req).execute();
-            String responseFromServer = res.body().toString();
+            String responseFromServer = res.body().string();
             JSONObject bookJSON = new JSONObject(responseFromServer);
             this.title = bookJSON.getString("Title");
             this.author = bookJSON.getString("Author");
-            this.yearReleased = bookJSON.getInt("YearReleased");
+            this.yearReleased = bookJSON.getInt("YearPublished");
             this.setting = bookJSON.getString("Setting");
         } catch (IOException ex) {
+            ex.printStackTrace();
             Log.i("HTTP", "Error with HTTP Request");
         } catch (JSONException ex) {
+            ex.printStackTrace();
             Log.i("JSON","Error parsing JSON");
         }
     }
