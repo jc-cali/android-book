@@ -2,6 +2,9 @@ package org.jcapps.androidbookfetch;
 
 import android.util.Log;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 
 import okhttp3.OkHttpClient;
@@ -30,16 +33,19 @@ public class Book {
             req = new Request.Builder().url(BOOK_URL).build();
             res = http.newCall(req).execute();
             String responseFromServer = res.body().toString();
-        } catch (IOException ex){
+            JSONObject bookJSON = new JSONObject(responseFromServer);
+            this.title = bookJSON.getString("Title");
+            this.author = bookJSON.getString("Author");
+            this.yearReleased = bookJSON.getInt("YearReleased");
+            this.setting = bookJSON.getString("Setting");
+        } catch (IOException ex) {
             Log.i("HTTP", "Error with HTTP Request");
+        } catch (JSONException ex) {
+            Log.i("JSON","Error parsing JSON");
         }
     }
 
-    public Book(String author, String title, int yearReleased, String setting) {
-        this.author = author;
-        this.title = title;
-        this.yearReleased = yearReleased;
-        this.setting = setting;
+    public Book() {
         getBookFromAPI();
     }
 
@@ -57,5 +63,15 @@ public class Book {
 
     public String getSetting() {
         return setting;
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "author='" + author + '\'' +
+                ", title='" + title + '\'' +
+                ", yearReleased=" + yearReleased +
+                ", setting='" + setting + '\'' +
+                '}';
     }
 }

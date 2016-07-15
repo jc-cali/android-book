@@ -15,23 +15,24 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
     private TextView mTextView;
+    private Book mBook;
 
     private class HttpFetch extends AsyncTask<String, Void, String> {
 
         @Override
         protected String doInBackground(String... params) {
-            Book myBook = new Book("", "", 0, "");
+            mBook = new Book();
             // return our data
             return null;
         }
 
         protected void onPostExecute(String result) {
             // call a method to call a TextView
-            updateTextView("empty data for now");
+            updateTextView(mBook.toString());
         }
     }
     private void updateTextView(String data) {
-        this.mTextView.setText("HTTP WORKS :)");
+        this.mTextView.setText(data);
     }
 
     @Override
